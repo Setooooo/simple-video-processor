@@ -5,7 +5,7 @@
 #include <thread>
 #include <xdir.h>
 
-using namespace std;                    , 
+using namespace std;
 void XVideoInput::Start(std::unique_ptr<XTask>task)
 {
 	cout << "test XVideo Input" << endl;
