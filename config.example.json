@@ -1,0 +1,24 @@
+{
+  "ffmpeg": {
+    "path": "ffmpeg",
+    "ffplay_path": "ffplay",
+    "timeout_seconds": 300
+  },
+  "encryption": {
+    "key_id": "REPLACE_WITH_YOUR_UNIQUE_KEY_ID",
+    "scheme": "cenc-aes-ctr",
+    "_comment": "注意：请生成唯一的key_id，不要使用示例值"
+  },
+  "logging": {
+    "level": "INFO",
+    "output_type": "console",
+    "file_path": "logs/video_processor.log",
+    "max_file_size_mb": 10,
+    "max_backup_files": 5
+  },
+  "video": {
+    "default_codec": "copy",
+    "default_audio_codec": "copy",
+    "supported_formats": [".mp4", ".avi", ".mkv", ".mov"]
+  }
+}
