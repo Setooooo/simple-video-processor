@@ -1,0 +1,23 @@
+{
+  "ffmpeg": {
+    "path": "ffmpeg",
+    "ffplay_path": "ffplay",
+    "timeout_seconds": 300
+  },
+  "encryption": {
+    "key_id": "2d06cf4e86cdc424dc47d0e08a28e387",
+    "scheme": "cenc-aes-ctr"
+  },
+  "logging": {
+    "level": "INFO",
+    "output_type": "console",
+    "file_path": "logs/video_processor.log",
+    "max_file_size_mb": 10,
+    "max_backup_files": 5
+  },
+  "video": {
+    "default_codec": "copy",
+    "default_audio_codec": "copy",
+    "supported_formats": [".mp4", ".avi", ".mkv", ".mov"]
+  }
+}
