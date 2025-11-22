@@ -118,8 +118,8 @@ ffmpeg -version
 ### 基本构建步骤
 
 ```bash
-# 1. 克隆仓库
-git clone https://github.com/Setooooo/simple-video-processor.git
+# 1. 克隆仓库（替换为实际的仓库URL）
+git clone https://github.com/<OWNER>/simple-video-processor.git
 cd simple-video-processor
 
 # 2. 创建构建目录

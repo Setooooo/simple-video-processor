@@ -40,8 +40,8 @@ simple-video-processor/
 ### Linux / macOS
 
 ```bash
-# 克隆仓库
-git clone https://github.com/Setooooo/simple-video-processor.git
+# 克隆仓库（替换为实际的仓库URL）
+git clone https://github.com/<OWNER>/simple-video-processor.git
 cd simple-video-processor
 
 # 创建构建目录
@@ -60,8 +60,8 @@ make
 ### Windows (Visual Studio)
 
 ```bash
-# 克隆仓库
-git clone https://github.com/Setooooo/simple-video-processor.git
+# 克隆仓库（替换为实际的仓库URL）
+git clone https://github.com/<OWNER>/simple-video-processor.git
 cd simple-video-processor
 
 # 创建构建目录

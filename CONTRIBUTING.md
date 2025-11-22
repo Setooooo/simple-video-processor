@@ -31,8 +31,10 @@ Thank you for your interest in the simple-video-processor project!
    ```
 3. **添加上游仓库**:
    ```bash
-   git remote add upstream https://github.com/Setooooo/simple-video-processor.git
+   git remote add upstream https://github.com/ORIGINAL_OWNER/simple-video-processor.git
    ```
+
+将 `YOUR_USERNAME` 替换为你的 GitHub 用户名，`ORIGINAL_OWNER` 替换为仓库拥有者。
 
 ### 开发流程
 
@@ -342,8 +344,10 @@ We welcome all kinds of contributions:
    ```
 3. **Add upstream remote**:
    ```bash
-   git remote add upstream https://github.com/Setooooo/simple-video-processor.git
+   git remote add upstream https://github.com/ORIGINAL_OWNER/simple-video-processor.git
    ```
+
+Replace `YOUR_USERNAME` with your GitHub username and `ORIGINAL_OWNER` with the repository owner.
 
 ### Development Workflow
 

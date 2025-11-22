@@ -9,8 +9,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # 设置编译选项
 if(MSVC)
     add_compile_options(/W4 /utf-8)
-    # 定义宏以导出DLL符号
-    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+    # 注意: 如果遇到特定的C4996警告，建议针对性处理而不是全局禁用
+    # add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
