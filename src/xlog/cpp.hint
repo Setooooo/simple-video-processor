@@ -1,0 +1,2 @@
+#define XLOG_API __declspec(dllexport)
+#define XLOG_API __declspec(dllimport)
