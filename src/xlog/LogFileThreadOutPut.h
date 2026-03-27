@@ -21,7 +21,7 @@ private:
   std::thread thread_;
   std::mutex mtx_file_;
   std::mutex mtx_queue_;
-  std::atomic<bool> is_exit_;
+  std::atomic<bool> is_exit_{ false };
   std::queue<std::string> queue_;
   std::condition_variable cv_;
 };

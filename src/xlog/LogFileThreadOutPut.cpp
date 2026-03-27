@@ -49,6 +49,7 @@ void LogFileThreadOutPut::Run() {
 
 LogFileThreadOutPut::~LogFileThreadOutPut() {
   is_exit_ = true;
+  cv_.notify_all();
   if (thread_.joinable())
     thread_.join();
 }

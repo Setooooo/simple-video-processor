@@ -11,6 +11,8 @@
 class XTask 
 {
 public:
+	virtual ~XTask() = default;
+
 	struct Data
 	{
 		std::string type;// 任务类型

@@ -6,15 +6,15 @@
 // 任何项目上不应定义此符号。这样，源文件中包含此文件的任何其他项目都会将
 // XLOG_API 函数视为是从 DLL 导入的，而此 DLL 则将用此宏定义的
 // 符号视为是被导出的。
-#ifdef _WIN32
-	#ifdef XLOG_EXPORTS
-		#define XLOG_API __declspec(dllexport)
-	#else
-		#define XLOG_API __declspec(dllimport)
-	#endif
+#if defined(_WIN32) && !defined(XLOG_STATIC)
+  #if defined(XLOG_EXPORTS)
+    #define XLOG_API __declspec(dllexport)
+  #else
+    #define XLOG_API __declspec(dllimport)
+  #endif
 #else
-  #define XLOG_EXPORTS 
-#endif // DEBUG
+  #define XLOG_API
+#endif
 
 
 

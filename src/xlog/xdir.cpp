@@ -30,5 +30,5 @@ bool XDir::isDir(const std::string& path)
 
 bool XDir::Create(const std::string& path)
 {
-  return filesystem::create_directory(path);
+  return filesystem::create_directories(path);
 }

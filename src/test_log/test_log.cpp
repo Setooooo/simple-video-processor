@@ -26,7 +26,7 @@ int main()
     .RegTask("cv", [] {
     cout << "@@@@  cv task!  @@@@" << endl;
       });
-  userinput.Star();
+  userinput.Start();
 
 
 

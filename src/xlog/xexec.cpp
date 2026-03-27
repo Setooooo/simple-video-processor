@@ -1,4 +1,5 @@
 #include "xexec.h"
+#include <cstdio>
 #include <iostream>
 #include <string>
 
@@ -6,6 +7,7 @@ using namespace std;
 #ifdef _WIN32// _WIN32
 #else
 #define _popen popen
+#define _pclose pclose
 #endif 
 
 
@@ -21,10 +23,10 @@ bool XExec::Start(const char* cmd,
 
 	fut_ = async(std::launch::async,[fp,this,func]{
 			string tmp;
-			char c = 0;
-			while (c = fgetc(fp))
+			int ch = 0;
+			while ((ch = fgetc(fp)) != EOF)
 			{
-				if (c == EOF) break;
+				char c = static_cast<char>(ch);
 
 				// /r回到当前行的开头
 				// /n到下一行的开头

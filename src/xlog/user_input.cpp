@@ -1,8 +1,8 @@
 #include "user_input.h"
+#include <cctype>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <sstream>
 
 
 using namespace std;
@@ -10,9 +10,22 @@ using namespace std;
 static vector<string> Split(const string& s) {
 	string tmp;
 	vector<string> vec;
-	istringstream is{ s };
-	while (getline(is, tmp, ' ')) {
-		if (tmp.empty())continue;
+	bool in_quotes = false;
+	for (const char c : s) {
+		if (c == '"') {
+			in_quotes = !in_quotes;
+			continue;
+		}
+		if (!in_quotes && isspace(static_cast<unsigned char>(c))) {
+			if (!tmp.empty()) {
+				vec.emplace_back(tmp);
+				tmp.clear();
+			}
+			continue;
+		}
+		tmp += c;
+	}
+	if (!tmp.empty()) {
 		vec.emplace_back(tmp);
 	}
 	return vec;

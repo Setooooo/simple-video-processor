@@ -1,14 +1,42 @@
 #include "fftask.h"
+#include <cctype>
 #include <iostream>
 #include "xexec.h"
 using namespace std;
 
 #define DEFAULT_PASS "1e5fb604bdba498ac30ed081b8d82187"
 
+static string QuoteArg(const string& value) {
+  if (value.empty()) {
+    return "\"\"";
+  }
+  if (value.find_first_of(" \t\"") == string::npos) {
+    return value;
+  }
+  string quoted = "\"";
+  for (const char c : value) {
+    if (c == '"') {
+      quoted += "\\\"";
+      continue;
+    }
+    quoted += c;
+  }
+  quoted += '"';
+  return quoted;
+}
+
+static string MergePassword(const string& password) {
+  string pass = DEFAULT_PASS;
+  for (size_t i = 0; i < password.size() && i < pass.size(); ++i) {
+    pass[i] = password[i];
+  }
+  return pass;
+}
+
 
 static bool checkTime(const string& str) {
   for (const auto& c : str) {
-    if (c <= '9' || c >= '0' || c == ':')
+    if (std::isdigit(static_cast<unsigned char>(c)) || c == ':')
       continue;
     else
       return false;
@@ -35,10 +63,11 @@ bool FFTask::Start(const Data& para)
   // ffmpeg -y -ss 10 -t 5 -i Mountain_Fog_3840x2160.mp4 out.mp4
   // -ss必须在-i之前
   //cv -s Mountain_Fog_3840x2160.mp4 -d out.mp4 -b 10 - e 15
-  string cmd = "ffmpeg -y ";
+  string cmd = "ffmpeg -y";
+  bool is_play = para.type == "play";
 
-  if (para.type == "play") {
-    cmd = "ffplay ";
+  if (is_play) {
+    cmd = "ffplay";
   }
 
   if (para.begin_sec > 0) {
@@ -51,51 +80,45 @@ bool FFTask::Start(const Data& para)
   }
   /////////////////////////
   // 视频解密 密钥必须在-i 之前
-  if (!para.is_enc) {
+  if (!is_play && !para.is_enc) {
     if (!para.password.empty()) {
-      cmd += "-decryption_key ";
-      string pass = DEFAULT_PASS;
-      for (int i = 0;
-        i < para.password.size() && i < pass.size();++i) {
-        pass[i] = para.password[i];
-      }
-      cmd += pass;
+      cmd += " -decryption_key " + MergePassword(para.password);
     }
   }
   // KEY//1e5fb604bdba498ac30ed081b8d82187
   // KID//2d06cf4e86cdc424dc47d0e08a28e387
   // 加密视频 密钥必须在-i之后
   //ffmpeg -decryption_key 1e5fb604bdba498ac30ed081b8d82187 -i out.mp4 -vcodec copy -acodec copy decrypted.mp4
-  cmd += " -i ";
-  //出入文件
-  cmd += para.src + " ";
-
-
-
-
-  string pass = DEFAULT_PASS;
-  if (para.is_enc) {
-    if (!para.password.empty()) {
-    cmd += " -encryption_scheme cenc-aes-ctr -encryption_kid 2d06cf4e86cdc424dc47d0e08a28e387 ";
-    cmd += " -encryption_key ";
-    for (int i = 0;
-      i < para.password.size() && i < pass.size();++i) {
-      pass[i] = para.password[i];
+  if (!para.src.empty()) {
+    if (is_play) {
+      cmd += " " + QuoteArg(para.src);
     }
-    cmd += pass ;
+    else {
+      cmd += " -i " + QuoteArg(para.src);
+    }
+  }
+
+
+
+
+  if (!is_play && para.is_enc) {
+    string pass = MergePassword(para.password);
+    if (!para.password.empty()) {
+    cmd += " -encryption_scheme cenc-aes-ctr -encryption_kid 2d06cf4e86cdc424dc47d0e08a28e387";
+    cmd += " -encryption_key " + pass;
     }  else {
-    cmd += " -encryption_scheme cenc-aes-ctr -encryption_kid 2d06cf4e86cdc424dc47d0e08a28e387 ";
+    cmd += " -encryption_scheme cenc-aes-ctr -encryption_kid 2d06cf4e86cdc424dc47d0e08a28e387";
     cmd += " -encryption_key " + pass;
   }
   }
 
   //输出文件
-  if(!para.des.empty())
-    cmd += " " + para.des;
+  if(!para.des.empty() && !is_play)
+    cmd += " " + QuoteArg(para.des);
 
   cout << "cmd: " << cmd << endl;
 
-  exec_.Start(cmd.c_str(), [this](const string& s) {
+  return exec_.Start(cmd.c_str(), [this](const string& s) {
     //cout << s << endl;
     // 1 获取视频时长
     //cv -s Mountain_Fog_3840x2160.mp4 -d out.mp4
@@ -125,9 +148,6 @@ bool FFTask::Start(const Data& para)
       }
     }
     });
-  
-
-  return true;
 }
 
 int FFTask::Progress()

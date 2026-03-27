@@ -69,7 +69,8 @@ void XVideoInput::Start(std::unique_ptr<XTask>task)
 			cout << "please input password" << endl;
 			string pass;
 			cin >> pass;
-			data.password = s;
+			data.password = pass;
+			data.is_enc = false;
 		}
 		else {
 			data.password = s;

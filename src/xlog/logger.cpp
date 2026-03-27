@@ -18,6 +18,9 @@ void Logger::Write(XLog level, const std::string &log, const std::string file, c
 if (log_level_>level) {
   return;
 }
+  if (!format_ || !output_) {
+    return;
+  }
   string levelstr = "debug";
   switch (level) {
     case XLog::DEBUG:
